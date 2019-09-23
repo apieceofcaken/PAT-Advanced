@@ -17,7 +17,7 @@
   修改图的存储结构与dijiastra算法，记录起点到当前节点最短路径条数。
 
 代码结构：
-  一、创建图的邻接矩阵存储数据结构，节点中增加npath、totalrescue以记录给定起点到该点的最短路径条数与最短路径上点权和最大值。
+  一、创建图的邻接表存储数据结构，节点中增加npath、totalrescue以记录给定起点到该点的最短路径条数与最短路径上点权和最大值。
   二、Read() -- 根据输入建立图。
   三、ModifiedDijiastra(Graph G) -- 修改后的dijiastra，以求最短路径条数，修改后的dijiastra不记录路径上点的顺序。
 
@@ -28,3 +28,29 @@
 #include<limits.h>  //各基本数据结构的边界值
 
 #define INF INT_MAX
+
+typedef struct Vertex *Vertex, *Vertexes;
+typedef struct Adj *Adj, *Adjs;
+typedef struct Graph *Graph, *Graph;
+
+struct Vertex{
+    int id;             //顶点编号
+    int collected;      //结点是否被收录
+    int dist;           //起点到该点的最短路径长度，传统Dijiastra用一个dist[]来记录，这里绑定在了结构体中，很好
+    int localrsc;       //当前节点权值（城市救援队数量）
+    int totrsc;         //最短路径中最大点权值和
+    int npath;          //最短路径条数（不记录具体路径，只进行计算）
+    Adj adj;            //该点相连的第一条边
+}；
+
+struct Adj{             //边的结构体
+    int id;             //边的另一端点
+    int length;         //边的权值（长度）
+    Adj iter;           //共起点的另一条边，若是最后一条，则值为null
+};
+
+struct Graph{
+    
+    
+       
+  

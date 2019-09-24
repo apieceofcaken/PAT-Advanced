@@ -36,7 +36,7 @@ typedef struct Graph *Graph, *Graph;
 
 struct Vertex{          //顶点结构体
     int id;             //顶点编号
-    int collected;      //结点是否被收录
+    bool collected;     //结点是否被收录
     int dist;           //起点到该点的最短路径长度，传统Dijiastra用一个dist[]来记录，这里绑定在了结构体中，很好
     int localrsc;       //当前节点权值（城市救援队数量）
     int totrsc;         //最短路径中最大点权值和

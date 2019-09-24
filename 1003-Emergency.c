@@ -18,14 +18,15 @@
 
 代码结构：
   一、创建图的邻接表存储数据结构，节点中增加npath、totalrescue以记录给定起点到该点的最短路径条数与最短路径上点权和最大值。
-  二、Read() -- 根据输入建立图。
+  二、Read(Graph G) -- 从输入数据第二行开始，建立图。
   三、ModifiedDijiastra(Graph G) -- 修改后的dijiastra，以求最短路径条数，修改后的dijiastra不记录路径上点的顺序。
-
+  四、main() -- 输入第一行并分配空间--->Read(Graph G)--->ModifiedDijiastra(Graph G)--->输出
 ---------------------------------------------代码部分-----------------------------------------------------
 
 #include<stdio.h>
 #include<stdlib.h>
 #include<limits.h>  //各基本数据结构的边界值
+#include<stdbool.h> //包含bool数据类型，true , false
 
 #define INF INT_MAX
 
@@ -33,7 +34,7 @@ typedef struct Vertex *Vertex, *Vertexes;
 typedef struct Adj *Adj, *Adjs;
 typedef struct Graph *Graph, *Graph;
 
-struct Vertex{
+struct Vertex{          //顶点结构体
     int id;             //顶点编号
     int collected;      //结点是否被收录
     int dist;           //起点到该点的最短路径长度，传统Dijiastra用一个dist[]来记录，这里绑定在了结构体中，很好
@@ -43,13 +44,37 @@ struct Vertex{
     Adj adj;            //该点相连的第一条边
 }；
 
-struct Adj{             //边的结构体
+struct Adj{             //边的结构体，存储有向边，无向图需要建立两条
     int id;             //边的另一端点
     int length;         //边的权值（长度）
     Adj iter;           //共起点的另一条边，若是最后一条，则值为null
 };
 
-struct Graph{
+struct Graph{           //图的结构体
+       Vertexes vs;     //顶点集基址（使用时分配存储空间）
+       Adjs es;         //边集基址（使用时分配存储空间）
+       int nvertex;     //顶点数量
+       int nadj;        //边数量
+};
+
+void Read(Graph G)      //初始化图中顶点信息及边信息，从第二行开始读
+{
+    int localrsc;
+    for(int i = 0; i < G->nvertex; i++)
+    {
+        Vertex v = G->vs + i;   //等价于 v = G->vs[i]
+        scanf("%d", &nrescue);
+        v->id           = i;
+        v->collected    = false;
+        v->dist         = INF;
+        v->localrsc     = localrsc;
+        v->totres       = localrsc;
+        v->npath        = 0;
+        v->adj          = NULL;
+    }
+        
+
+
     
     
        

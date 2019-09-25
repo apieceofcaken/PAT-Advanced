@@ -1,3 +1,4 @@
+/*
 感谢：https://github.com/OliverLew/PAT/blob/master/PATAdvanced/1003.c
 
 给定一无向图，包含边权与点权，找到某两点间（边权）最短路径的条数，并且输出所有最短路径中点权和最大值。 
@@ -22,6 +23,7 @@
   三、ModifiedDijiastra(Graph G) -- 修改后的dijiastra，以求最短路径条数，修改后的dijiastra不记录路径上点的顺序。
   四、main() -- 输入第一行并分配空间--->Read(Graph G)--->ModifiedDijiastra(Graph G)--->输出
 ---------------------------------------------代码部分-----------------------------------------------------
+*/
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -41,7 +43,7 @@ struct Vertex{          //顶点结构体
     int localrsc;       //当前节点权值（城市救援队数量）
     int totrsc;         //最短路径中最大点权值和
     int npath;          //最短路径条数（不记录具体路径，只进行计算）
-    Adj adj;            //该点相连的第一条边
+    Adj firstarc;       //该点相连的第一条边，初始为空
 }；
 
 struct Adj{             //边的结构体，存储有向边，无向图需要建立两条
@@ -59,11 +61,12 @@ struct Graph{           //图的结构体
 
 void Read(Graph G)      //初始化图中顶点信息及边信息，从第二行开始读
 {
+    //输入点权
     int localrsc;
     for(int i = 0; i < G->nvertex; i++)
     {
-        Vertex v = G->vs + i;   //等价于 v = G->vs[i]
-        scanf("%d", &nrescue);
+        Vertex v = G->vs + i;    //等价于 v = G->vs[i]
+        scanf("%d", &localrsc);  //第二行数据
         v->id           = i;
         v->collected    = false;
         v->dist         = INF;
@@ -72,6 +75,33 @@ void Read(Graph G)      //初始化图中顶点信息及边信息，从第二行
         v->npath        = 0;
         v->adj          = NULL;
     }
+    
+    //输入边
+    int id1, id2, length;
+    for(int i = 0; i < G->nadj; i++)
+    {
+        scanf("%d %d %d", &id1, %id2, %length);     //输入一条无向边的信息，需要按有向边更新两次
+        //从id1到id2
+        Adj e = G->es + i;
+        e->id           = id2; //终点
+        e->lendth       = length;
+        e->iter         = G->vs[id1].firstarc;      //id1为起点，将e1（id1到id2）插入点id1的出边的单链表中
+        G->vs[id1].firstarc = e;
+        e++; i++;
+        //从id2到id1
+        e->id           = id1; //终点
+        e->lendth       = length;                   
+        e->iter         = G->vs[id2].firstarc;      //id2为起点，将e2（id2到id1）插入点id2的出边的单链表中
+        G->vs[id2].firstarc = e;
+    }
+    
+}
+
+//用Dijiastra算法思想寻找最短路，并用顶点中的npath保存起始点到该点最短路的条数，
+//totrsc保存所有最短路中点权和最大值
+        
+        
+        
         
 
 

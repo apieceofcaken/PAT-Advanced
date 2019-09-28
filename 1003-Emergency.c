@@ -49,7 +49,7 @@ struct Vertex{          //顶点结构体
 struct Adj{             //边的结构体，存储有向边，无向图需要建立两条
     int id;             //边的另一端点
     int length;         //边的权值（长度）
-    Adj iter;           //共起点的另一条边，若是最后一条，则值为null
+    Adj iter;           //共起点的另一条边，若是最后一条，则值为NULL
 };
 
 struct Graph{           //图的结构体
@@ -99,6 +99,47 @@ void Read(Graph G)      //初始化图中顶点信息及边信息，从第二行
 
 //用Dijiastra算法思想寻找最短路，并用顶点中的npath保存起始点到该点最短路的条数，
 //totrsc保存所有最短路中点权和最大值
+ModifiedDijiastra(Graph G)
+{
+    vertext v, w;
+    int minUnknownDist;
+    while(true)
+    {
+        //找未收录顶点中dist最小者
+        v = NULL;
+        minUnknownDist = INF;
+        for(w = G->vs; w < &G->vs[G->nvertex]; w++) //遍历G的所有顶点
+            if(!w->collected && w->dist < minUnknownDist)
+            {
+                minUnknownDist = w->dist;
+                v = w;
+            }
+        if(v == NULL) break; //程序完成，跳出
+        
+        v->collected = true;
+        for(Adj e = v->adj; e!=NULL; e = e->iter) if(!G->vs[e->id].collected)
+        {
+            w = G->vs + e->id;
+            if(v->dist + e->length < w->dist)
+            {
+                w->npath = v->npath;
+                w->totrsc = w->localrsc + v->totrsc;
+                w->dist = v->dist + e->length;
+            }
+            //最短距离相同的边，更新npath和totrsc
+            else if(v->dist + e->length == w->dist)
+            {
+                w->npath += v->npath;
+                if(w->totrsc < w->localrsc + v->totrsc)
+                    w->totrsc = w->localrsc + v->totrsc;
+            }
+        }
+    }
+}
+                    
+                
+        
+        
         
         
         

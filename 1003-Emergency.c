@@ -20,8 +20,8 @@
 代码结构：
   一、创建图的邻接表存储数据结构，节点中增加npath、totalrescue以记录给定起点到该点的最短路径条数与最短路径上点权和最大值。
   二、Read(Graph G) -- 从输入数据第二行开始，建立图。
-  三、ModifiedDijiastra(Graph G) -- 修改后的dijiastra，以求最短路径条数，修改后的dijiastra不记录路径上点的顺序。
-  四、main() -- 输入第一行并分配空间--->Read(Graph G)--->ModifiedDijiastra(Graph G)--->输出
+  三、ModifiedDijkstra(Graph G) -- 修改后的dijkstra，以求最短路径条数，修改后的dijkstra不记录路径上点的顺序。
+  四、main() -- 输入第一行并分配空间--->Read(Graph G)--->ModifiedDijkstra(Graph G)--->输出
 ---------------------------------------------代码部分-----------------------------------------------------
 */
 
@@ -99,7 +99,7 @@ void Read(Graph G)      //初始化图中顶点信息及边信息，从第二行
 
 //用Dijiastra算法思想寻找最短路，并用顶点中的npath保存起始点到该点最短路的条数，
 //totrsc保存所有最短路中点权和最大值
-ModifiedDijiastra(Graph G)
+void ModifiedDijkstra(Graph G)
 {
     vertext v, w;
     int minUnknownDist;
@@ -136,6 +136,31 @@ ModifiedDijiastra(Graph G)
         }
     }
 }
+
+int main()
+{   
+    int N, M, C1, C2;
+    scanf("%d %d %d %d", &N, &M, &C1, &C2);
+    
+    //创建图变量
+    Vertexes vs = (Vertexes)malloc(N * sizeof(struct Vertex));
+    Adjs es = (Adjs)malloc(2 * M * sizeof(struct Adj));
+    struct Graph sG = {.vs = vs, .es = es, .nvertex = N, .nadj = 2 * M};
+    Graph G = &sG;
+    
+    //读取所有数据，建立图
+    Read(G);
+    G->vs[C1].dist = 0;
+    G->vs[C2].npath = 1;
+    
+    //找最短路径数 和 最大点权和
+    ModifiedDijkstra(G);
+    
+    printf("%d %d", G->vs[C2].npath, G->vs[C2].totrsc);
+    
+    return 0;
+}
+    
                     
                 
         

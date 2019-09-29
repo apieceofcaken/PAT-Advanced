@@ -44,7 +44,7 @@ struct Vertex{          //顶点结构体
     int totrsc;         //最短路径中最大点权值和
     int npath;          //最短路径条数（不记录具体路径，只进行计算）
     Adj firstarc;       //该点相连的第一条边，初始为空
-}；
+};
 
 struct Adj{             //边的结构体，存储有向边，无向图需要建立两条
     int id;             //边的另一端点
@@ -117,7 +117,7 @@ void ModifiedDijkstra(Graph G)
         if(v == NULL) break; //程序完成，跳出
         
         v->collected = true;
-        for(Adj e = v->adj; e!=NULL; e = e->iter) if(!G->vs[e->id].collected)
+        for(Adj e = v->firstarc; e!=NULL; e = e->iter) if(!G->vs[e->id].collected)
         {
             w = G->vs + e->id;
             if(v->dist + e->length < w->dist)

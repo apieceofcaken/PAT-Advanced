@@ -71,26 +71,26 @@ void Read(Graph G)      //初始化图中顶点信息及边信息，从第二行
         v->collected    = false;
         v->dist         = INF;
         v->localrsc     = localrsc;
-        v->totres       = localrsc;
+        v->totrsc       = localrsc;
         v->npath        = 0;
-        v->adj          = NULL;
+        v->firstarc     = NULL;
     }
     
     //输入边
     int id1, id2, length;
     for(int i = 0; i < G->nadj; i++)
     {
-        scanf("%d %d %d", &id1, %id2, %length);     //输入一条无向边的信息，需要按有向边更新两次
+        scanf("%d %d %d", &id1, &id2, &length);     //输入一条无向边的信息，需要按有向边更新两次
         //从id1到id2
         Adj e = G->es + i;
         e->id           = id2; //终点
-        e->lendth       = length;
+        e->length       = length;
         e->iter         = G->vs[id1].firstarc;      //id1为起点，将e1（id1到id2）插入点id1的出边的单链表中
         G->vs[id1].firstarc = e;
         e++; i++;
         //从id2到id1
         e->id           = id1; //终点
-        e->lendth       = length;                   
+        e->length       = length;                   
         e->iter         = G->vs[id2].firstarc;      //id2为起点，将e2（id2到id1）插入点id2的出边的单链表中
         G->vs[id2].firstarc = e;
     }
@@ -101,7 +101,7 @@ void Read(Graph G)      //初始化图中顶点信息及边信息，从第二行
 //totrsc保存所有最短路中点权和最大值
 void ModifiedDijkstra(Graph G)
 {
-    vertext v, w;
+    Vertex v, w;
     int minUnknownDist;
     while(true)
     {

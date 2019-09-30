@@ -151,7 +151,7 @@ int main()
     //读取所有数据，建立图
     Read(G);
     G->vs[C1].dist = 0;
-    G->vs[C2].npath = 1;
+    G->vs[C1].npath = 1;
     
     //找最短路径数 和 最大点权和
     ModifiedDijkstra(G);

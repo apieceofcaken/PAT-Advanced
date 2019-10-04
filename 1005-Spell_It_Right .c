@@ -59,7 +59,7 @@ int main()
 		if(i > 0) printf(" "); 
     }
     /*对比：
-        if(sum >= 100)
+    if(sum >= 100)
         printf("%s ", digits[sum / 100]);
     if(sum >= 10)
         printf("%s ", digits[sum % 100 / 10]);

@@ -47,15 +47,12 @@ int Time_to_Seconds(char* time)
         {
             time_pieces[i][k] = (int)time[j] - '0';
 			//printf("%d\n", time_pieces[i][k]);
-			k = (k + 1) % 2;
-			
+			k = (k + 1) % 2;	
         }
         else if(time[j] == ':')
         {
             i++;
-        }
-		
-		
+        }	
     }
 	
     for(i = 0; i < 3; i++)
@@ -64,11 +61,9 @@ int Time_to_Seconds(char* time)
 		//printf("%d\n", seconds);
         h /= 60;
     }
-	
-    
     return seconds;
-
 }
+
 
 int main()
 {
@@ -82,31 +77,29 @@ int main()
     for(i = 0; i < m; i++)
     {
         scanf("%s %s %s", current_name, current_in_time, current_out_time);
+	    
         temp_in_time = Time_to_Seconds(current_in_time);
         temp_out_time = Time_to_Seconds(current_out_time);
+	    
+	/*
+	对比一下简洁做法：使用scanf()将不需要的":"去掉，然后直接计算
+        scanf("%s %d:%d:%d", name, &HH, &MM, &SS);
+        time = (HH * 60 + MM) * 60 + SS;
+	*/
+	 
         if(earlist_in_time > temp_in_time)
         {
-            earlist_in_time = temp_in_time;
-            
+            earlist_in_time = temp_in_time;        
 			strcpy(in_name, current_name); //重点！字符串的复制需要使用strcpy(目标，源)函数
-
-
-
         }
         if(latest_out_time < temp_out_time)
         {
             latest_out_time = temp_out_time;
-
             strcpy(out_name, current_name);
-
-
         }
-		
     }
-
     printf("%s %s", in_name, out_name);
 
     return 0;
-
 
 }
